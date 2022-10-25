@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  php74:
+    build:
+      context: ./php/7.4/
+      dockerfile: ./php/7.4/Dockerfile
+    container_name: php74_lnmp
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    volumes:
+      - ../:/var/www/html/php74
+  php81:
+    build:
+      context: ./php/8.1/
+      dockerfile: ./php/8.1/Dockerfile
+    container_name: php81_lnmp
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    volumes:
+      - ../:/var/www/html/php81
+  redis:
+    image: redis:latest
+    container_name: redis_lnmp
+    ports:
+      - 6379:6379
+  nginx:
+    image: nginx:latest
+    container_name: nginx_lnmp
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/sites-enabled:/etc/nginx/sites-enabled
+      - ../:/var/www/html
+    environment:
+      - TZ=Asia/Taipei
+  mysql:
+    image: mysql:latest
+    container_name: mysql_lnmp
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=lnmp_docker
+      - MYSQL_USER=lnmp_docker
+      - MYSQL_PASSWORD=lnmp_docker
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+
+
