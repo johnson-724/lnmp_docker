@@ -1,26 +1,6 @@
 version: '3.8'
 
 services:
-  php74-cli:
-    build:
-      context: ./php/cli/7.4/
-      dockerfile: Dockerfile
-    container_name: php74_cli_lnmp
-    restart: unless-stopped
-    stdin_open: true
-    tty: true
-    volumes:
-      - ../:/var/www/html
-  php81-cli:
-    build:
-      context: ./php/cli/8.1/
-      dockerfile: Dockerfile
-    container_name: php81_cli_lnmp
-    restart: unless-stopped
-    stdin_open: true
-    tty: true
-    volumes:
-      - ../:/var/www/html
   php74-fpm:
     build:
       context: ./php/fpm/7.4/
@@ -54,6 +34,7 @@ services:
       - 80:80
       - 443:443
     volumes:
+      - ./nginx/ssl:/etc/nginx/ssl
       - ./nginx/sites-enabled:/etc/nginx/conf.d
       - ../:/var/www/html
     environment:
