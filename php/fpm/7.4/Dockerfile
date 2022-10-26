@@ -12,6 +12,7 @@ RUN chmod +x /usr/local/bin/install-php-extensions \
     zip \
     pdo \
     pdo_mysql \
+    pcntl \
     xdebug
 
 WORKDIR /var/www/html
